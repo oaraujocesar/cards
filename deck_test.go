@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"testing"
 )
 
@@ -24,3 +25,21 @@ func TestNewDeck(t *testing.T) {
 	}
 }
 
+func TestSaveToDeckAndNewDeckFromFile(t *testing.T) {
+	os.Remove("_deckTesting")
+
+	deck := newDeck()
+	deck.saveToFile("_deckTesting")
+
+	loadedDeck := newDeckFromFile("_deckTesting")
+
+	deckLength := len(loadedDeck)
+	expectedLength := 52
+
+
+	if deckLength != expectedLength {
+		t.Errorf("Expected %v cards in deck, but got %v", expectedLength, deckLength)
+	}
+
+	os.Remove("_deckTesting")
+}
